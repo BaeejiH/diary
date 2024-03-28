@@ -56,7 +56,12 @@
 <%
       if(rs1.next()) {
 %>
-     <h1>게시글 수정</h1>
+         
+ <div class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="cinzel mt-5 col-7 mb-5 border border-dark border-2">
+   		<h1>게시글 수정</h1>
       <form method="post" action="./updatediaryAction.jsp">
             <table>
                <tr>
@@ -83,6 +88,20 @@
             </table>
             <button type="submit" class="badge text-bg-danger">글 수정</button>
             </form>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
 <%
 }

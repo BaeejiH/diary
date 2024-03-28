@@ -29,7 +29,7 @@
    String diaryDate = request.getParameter("diaryDate");
    System.out.println(diaryDate + " <-- diaryDate"); // 디버깅 코드는 확인 후 다음 코드 진행
    
-   String sql2 = "select diary_date, title, weather, content from diary where diary_date=?";
+   String sql2 = "select diary_date, title, weather, content,feeling from diary where diary_date=?";
    
    PreparedStatement stmt2 = null;
    ResultSet rs2 = null;
@@ -99,6 +99,11 @@
                <tr>
                   <th>content:</th>
                   <td><%=rs2.getString("content")%></td>
+               </tr>
+               
+                <tr>
+                  <th>feeling:</th>
+                  <td><%=rs2.getString("feeling")%></td>
                </tr>
 
 
