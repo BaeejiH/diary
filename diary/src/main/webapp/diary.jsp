@@ -3,29 +3,26 @@
 <%@ page import="java.net.*"%>
 <%@ page import = "java.util.*" %>
 <%
-   // 로그인(인증) 분기
-   // diary.login.my_session => 'OFF' => redirect("loginForm.jsp")
-   String diaryDate = request.getParameter("diaryDate");   
-   String sql1 = "select my_session mySession from login";
-   Class.forName("org.mariadb.jdbc.Driver");
-   Connection conn = null;
-   PreparedStatement stmt1 = null;
-   ResultSet rs1 = null;
-   conn = DriverManager.getConnection(
-         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-   stmt1 = conn.prepareStatement(sql1);
-   rs1 = stmt1.executeQuery();
-   String mySession = null;
-   if(rs1.next()) {
-      mySession = rs1.getString("mySession");
-   }
-   if(mySession.equals("OFF")) {
+   
+   //로그인(인증)
+   String loginMember = (String)(session.getAttribute("loginMember"));
+   
+   if(loginMember== null) {
       String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
       response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
       return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
    }
 %>
+
+
+
 <%
+	Class.forName("org.mariadb.jdbc.Driver");
+	Connection conn = null;
+	conn = DriverManager.getConnection(
+	         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+
+
 //1. 요청 분석
    // 출력하고자는 달력의 년과 월값을 넘겨받음
    String targetYear = request.getParameter("targetYear");
@@ -53,15 +50,15 @@
    int countDiv = startBlank + lastDate;
    
    //DB에서 tYear와 tMonth에 해당되는 diary목록 추출
-   String sql2 = "select diary_date diaryDate, day(diary_date) day, feeling, left(title,5) title from diary where year(diary_date)=? and month(diary_date)=?";
-   PreparedStatement stmt2 = null;
-   ResultSet rs2 = null;
-   stmt2 = conn.prepareStatement(sql2);
-   stmt2.setInt(1, tYear);
-   stmt2.setInt(2, tMonth+1);
-   System.out.println(stmt2);
+   String sql1 = "select diary_date diaryDate, day(diary_date) day, feeling, left(title,5) title from diary where year(diary_date)=? and month(diary_date)=?";
+   PreparedStatement stmt1 = null;
+   ResultSet rs1 = null;
+   stmt1 = conn.prepareStatement(sql1);
+   stmt1.setInt(1, tYear);
+   stmt1.setInt(2, tMonth+1);
+   System.out.println(stmt1);
    
-   rs2 = stmt2.executeQuery();
+   rs1 = stmt1.executeQuery();
    
    
    
@@ -141,8 +138,12 @@
    
 </head>
 <body class="b">   
-   <a href="/diary/diary.jsp">다이어리 모양으로 보기</a>
-   <a href="/diary/diaryList.jsp">게시판 모양으로 보기</a>
+   <a href="/diary/diary.jsp" class="btn btn-danger btn-lg">다이어리 모양으로 보기</a>
+   <a href="/diary/diaryList.jsp" class="btn btn-danger btn-lg">게시판 모양으로 보기</a>
+   
+   
+   
+   
 
 <div class="container cinzel ">
   <div class="row">
@@ -201,21 +202,21 @@
                   <%=i-startBlank%><br>
             <%
                   // 현재날짜(i-startBlank)의 일기가 rs2목록에 있는지 비교
-                  while(rs2.next()) {
+                  while(rs1.next()) {
                      // 날짜에 일기가 존재한다
-                     if(rs2.getInt("day") == (i-startBlank)) {
+                     if(rs1.getInt("day") == (i-startBlank)) {
             %>
                         <div>
-                           <%=rs2.getString("feeling")%>
-                           <a href='/diary/diaryOne.jsp?diaryDate=<%=rs2.getString("diaryDate")%>'>
-                              <%=rs2.getString("title")%>...
+                           <%=rs1.getString("feeling")%>
+                           <a href='/diary/diaryOne.jsp?diaryDate=<%=rs1.getString("diaryDate")%>'>
+                              <%=rs1.getString("title")%>...
                            </a>
                         </div>
             <%            
                         break;
                      }
                   }
-                  rs2.beforeFirst(); // ResultSet의 커스 위치를 처음으로...
+                  rs1.beforeFirst(); // ResultSet의 커스 위치를 처음으로...
                } else {
             %>
                   &nbsp;

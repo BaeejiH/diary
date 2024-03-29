@@ -3,6 +3,19 @@
 <%@ page import="java.net.*"%>
 <%@ page import = "java.util.*" %>
 <%
+   
+   //로그인(인증)
+   String loginMember = (String)(session.getAttribute("loginMember"));
+   
+   if(loginMember== null) {
+      String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
+      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
+      return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
+   }
+%> 
+
+
+<%
 //수정 삭제
    String diaryDate = request.getParameter("diaryDate"); // 이해확인 필요, 요청값 url에 보여지는 주소명과 요청하는 이름이 동일 해야함.
    System.out.println(diaryDate + " <-- diaryDate"); // 디버깅 코드는 확인 후 다음 코드 진행

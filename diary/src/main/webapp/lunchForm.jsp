@@ -27,14 +27,13 @@
 		
 %>	
 <%
-	String menu = request.getParameter("menu");
 	String lunchDate = request.getParameter("lunchDate");
 	
-	String sq2 = "INSERT INTO lunch(lunch_date,menu,update_date,create_date) VALUES(CURDATE(), ?, NOW(), NOW())";
+	String sq2 ="SELECT * FROM lunch";
 	
 	PreparedStatement stmt2 = conn.prepareStatement(sq2);
 	
-	stmt2.setString(1,menu);
+
 	
 	
 %>
@@ -48,20 +47,19 @@
 	</head>
 <body>
 
-			<form method="post" action="/diary/lunchOne.jsp">
+			<form method="post" action="/diary/lunchAction.jsp">
             
                <div>
                <label for="lunchDate" class="form-label">lunchDate</label>
                <input type="date" name="lunchDate" value="<%=lunchDate%>" id="lunchDate" class="form-label">
-                 
-                <label>menu</label>
-                <select>
-                	<option>한식</option>
-                	<option>일식</option>
-                	<option>중식</option>
-                	<option>양식</option>
-                </select>
-                                           
+              </div> 
+                                        
+                <label>menu</label>        	
+         		<intput type ="radio" name="menu" value="1">한식	
+         		<intput type ="radio" name="menu" value="2">일식
+         		<intput type ="radio" name="menu" value="3">중식
+         		<intput type ="radio" name="menu" value="4">양식
+                                 
                   <button type="submit" class="btn btn-dark">투표</button>
                </div>
                

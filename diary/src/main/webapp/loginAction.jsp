@@ -2,25 +2,25 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.net.*"%>
 <%
-   String sql1 = "select my_session mySession from login";
-   Class.forName("org.mariadb.jdbc.Driver");
-   Connection conn = null;
-   PreparedStatement stmt1 = null;
-   ResultSet rs1 = null;
-   conn = DriverManager.getConnection(
-         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-   stmt1 = conn.prepareStatement(sql1);
-   rs1 = stmt1.executeQuery();
-   String mySession = null;
-   if(rs1.next()) {
-      mySession = rs1.getString("mySession");
-   }
-   if(mySession.equals("ON")) {
-      response.sendRedirect("/diary/diary.jsp");
-      return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
-}
-   
-   //1.요청값 분석
+	String loginMember =(String)(session.getAttribute("loginMember"));
+	// session.getAttribute () 찾는 변수가 없으면 null값을 반환하다.
+	//null이면 로그아웃상테이고, null이 아니면 로그인 상태
+	System.out.println(loginMember + "");
+	
+	//logunForm 페이지는 로그아웃상태에서만 출력되는 페이지
+	 if(loginMember != null) {
+	  response.sendRedirect("/diary/diary.jsp"); 
+	  return;
+	 }
+	  
+	  
+	  
+	//loginMember 가 null이다. -> session 공간에 loginMember 변수를 생성  
+%>
+  
+
+ <%
+   //1.요청값 분석 -> 로그인 성공유무 ->session에 loginMember 생성
    String memberID = request.getParameter("memberID");
    String memberPW = request.getParameter("memberPW");
    
@@ -28,24 +28,21 @@
    String sql2 = "select member_id memberID from member where member_id=? and member_pw=?";
    PreparedStatement stmt2 = null;
    ResultSet rs2 = null;
+   Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
    stmt2 = conn.prepareStatement(sql2);
    stmt2.setString(1, memberID);
    stmt2.setString(2, memberPW);
    rs2 = stmt2.executeQuery();
    
-   
-   
    if(rs2.next()){
       //로그인 성공
       //diary.login.my_session -> "on" 변경
+      
       System.out.println("로그인 성공");
-      String sql3 = "update login set my_session = 'ON', on_date = now()";
-      PreparedStatement stmt3 = conn.prepareStatement(sql3);
-      int row = stmt3.executeUpdate();
-      response.sendRedirect("/diary/diary.jsp"); // Action페이지에서 sendRedirect은 다른 페이지로 넘아가야할 때 씀.HTML의 a태그와 비슷함.
-      System.out.println(row+ " <-- row");
-
-   
+		//로그인 성공시 DB값 설정 -> session 변수 성공	
+		session.setAttribute("loginMember", rs2.getString("memberID"));
+		response.sendRedirect("/diary/diary.jsp"); 
+		
    }else{
       //로그인 실패
       System.out.println("로그인 실패");

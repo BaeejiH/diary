@@ -7,12 +7,13 @@
 	String title = request.getParameter("title");
 	String weather = request.getParameter("weather");
 	String content = request.getParameter("content");
+	String feeling = request.getParameter("feeling");
 	//디버깅 코드 
 	System.out.println(diarydate + " <-- diarydate");
 	System.out.println(title + " <-- title");
 	System.out.println(weather + " <-- weather");
 	System.out.println(content + " <-- content");
-	
+	System.out.println(feeling + " <-- feeling");
 
 	//드라이버 설정
 	Class.forName("org.mariadb.jdbc.Driver");
@@ -20,7 +21,7 @@
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
 	
 	//쿼리준비
-	String sql= "INSERT INTO diary(diary_date,title,weather,content,update_date,create_date)VALUES(?,?,?,?,NOW(),NOW())";
+	String sql= "INSERT INTO diary(diary_date,title,weather,feeling,content,update_date,create_date)VALUES(?,?,?,?,?,NOW(),NOW())";
 	//통에 쿼리문 넣어주기
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	
@@ -29,7 +30,8 @@
 	stmt.setString(1,diarydate);
 	stmt.setString(2,title);
 	stmt.setString(3,weather);
-	stmt.setString(4,content);
+	stmt.setString(4,feeling);
+	stmt.setString(5,content);
 	//디버깅
 	System.out.println(stmt);
 	

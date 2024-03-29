@@ -2,30 +2,16 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.net.*"%>
 <%
-   // 0. 로그인(인증) 분기
-   // diary.login.my_session => 'OFF' => redirect("loginForm.jsp")
    
-   String sql1 = "select my_session mySession from login";
-   Class.forName("org.mariadb.jdbc.Driver");
-   Connection conn = null;
-   PreparedStatement stmt1 = null;
+   //로그인(인증)
+   String loginMember = (String)(session.getAttribute("loginMember"));
    
-   ResultSet rs1 = null;
-   conn = DriverManager.getConnection(
-         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-   stmt1 = conn.prepareStatement(sql1);
-   rs1 = stmt1.executeQuery();
-   String mySession = null;
-   if(rs1.next()) {
-      mySession = rs1.getString("mySession");
-   }
-   // diary.login.my_session => 'OFF' => redirect("loginForm.jsp")
-   if(mySession.equals("OFF")) {
-      String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
-      response.sendRedirect("/diary/loginForm.jsp?errMsg="+errMsg);
+   if(loginMember== null) {
+      String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
+      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
       return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
    }
-%>   
+%> 
 
 <%
    //현재페이지
@@ -64,6 +50,7 @@
    String sql2 = "select diary_date diaryDate, title from diary where title like ? order by diary_date desc limit ?, ?";
    PreparedStatement stmt2 = null;
    ResultSet rs2 = null;
+   Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
    stmt2 = conn.prepareStatement(sql2);
    stmt2.setString(1, "%"+searchWord+"%");
    stmt2.setInt(2, startRow);
@@ -120,6 +107,9 @@
    
 </head>
 <body class="b">
+ <a href="/diary/diary.jsp" class="btn btn-danger btn-lg">다이어리 모양으로 보기</a>
+ <a href="/diary/diaryList.jsp" class="btn btn-danger btn-lg">게시판 모양으로 보기</a>
+ 
 
    <div class="container cinzel">
       <div class="row">

@@ -1,28 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*"%>
-<%
-   // 0. 로그인(인증) 분기
-   // diary.login.my_session => 'ON' => redirect("diary.jsp")
-   String sql1 = "select my_session mySession from login";
-   Class.forName("org.mariadb.jdbc.Driver");
-   Connection conn = null;
-   PreparedStatement stmt1 = null;   
-   ResultSet rs1 = null;
-   conn = DriverManager.getConnection(
-         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-   stmt1 = conn.prepareStatement(sql1);
-   rs1 = stmt1.executeQuery();
-   
-   String mySession = null;
-   if(rs1.next()) {
-      mySession = rs1.getString("mySession");
-   }
-   if(mySession.equals("OFF")) {
-      response.sendRedirect("/diary/loginForm.jsp");  // 특정한 작업을 수행한 후 지정된 페이지로 이동(response.sendRedirect)
-      return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
-   }
 
-   
+<%
+  	//로그인(인증) 분기 session사용으로 변경()
+ 	//로그인 성공시 세션에 login Member라는 변수를 만들고값으로 로그인 아이디르 ㄹ저장
+ 	String loginMember =(String)(session.getAttribute("loginMember"));
+	// session.getAttribute () 찾는 변수가 없으면 null값을 반환하다.
+	//null이면 로그아웃상테이고, null이 아니면 로그인 상태
+	System.out.println(loginMember + "<--loginMember");
+	
+	//logunForm 페이지는 로그아웃상태에서만 출력되는 페이지
+	 if(loginMember != null) {
+      response.sendRedirect("/diary/diary.jsp"); 
+      return;
+	 }
    // 1. 요청값 분석
    String errMsg = request.getParameter("errMsg");
 %>

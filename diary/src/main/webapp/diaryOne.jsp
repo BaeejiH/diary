@@ -4,40 +4,32 @@
 <%@ page import = "java.util.*" %>
 
 <%
-   // 0. 로그인(인증) 분기
-   // diary.login.my_session => 'ON' => redirect("diary.jsp")
-   String sql1 = "select my_session mySession from login";
-   Class.forName("org.mariadb.jdbc.Driver");
-   Connection conn = null;
-   PreparedStatement stmt1 = null;   
-   ResultSet rs1 = null;
-   conn = DriverManager.getConnection(
-         "jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-   stmt1 = conn.prepareStatement(sql1);
-   rs1 = stmt1.executeQuery();
    
-   String mySession = null;
-   if(rs1.next()) {
-      mySession = rs1.getString("mySession");
-   }
-   if(mySession.equals("OFF")) {
-      response.sendRedirect("/diary/loginForm.jsp");  // 특정한 작업을 수행한 후 지정된 페이지로 이동(response.sendRedirect)
+   //로그인(인증)
+   String loginMember = (String)(session.getAttribute("loginMember"));
+   
+   if(loginMember== null) {
+      String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
+      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
       return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
    }
+%> 
 
+<% 
 //수정 삭제
    String diaryDate = request.getParameter("diaryDate");
    System.out.println(diaryDate + " <-- diaryDate"); // 디버깅 코드는 확인 후 다음 코드 진행
    
-   String sql2 = "select diary_date, title, weather, content,feeling from diary where diary_date=?";
+   String sql1 = "select diary_date, title, weather, content,feeling from diary where diary_date=?";
    
-   PreparedStatement stmt2 = null;
-   ResultSet rs2 = null;
-   stmt2 = conn.prepareStatement(sql2);
-   stmt2.setString(1, diaryDate);
+   PreparedStatement stmt1 = null;
+   ResultSet rs1 = null;
+   Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+   stmt1 = conn.prepareStatement(sql1);
+   stmt1.setString(1, diaryDate);
    System.out.println(stmt1);
    // board 상세 내용의 모델값
-   rs2 = stmt2.executeQuery(); // 1행 결과이므로 if...
+   rs1 = stmt1.executeQuery(); // 1행 결과이므로 if...
 
 %>
 <!DOCTYPE html>
@@ -75,7 +67,7 @@
     <div class="cinzel mt-5 col-7 mb-5 border border-dark border-2">
      <h1><%=diaryDate%>Details</h1>
 <%
-      if(rs2.next()) {
+      if(rs1.next()) {
 %>
    
             <label><a
@@ -87,23 +79,23 @@
             <!-- input으로 값을 요청하는 것과   <  %=diaryDate% >  같다 -->
                <tr>
                   <th>title:</th>
-                  <td><%=rs2.getString("title")%></td> 
+                  <td><%=rs1.getString("title")%></td> 
                   <!-- 로그인 분기문을 추가하면서 쿼리 실행문이 두개 생겼음. rs1-> rs2로 바뀌어야함. 주의요망  -->
                </tr>
 
                <tr>
                   <th>weather:</th>
-                  <td><%=rs2.getString("weather")%></td>
+                  <td><%=rs1.getString("weather")%></td>
                </tr>
 
                <tr>
                   <th>content:</th>
-                  <td><%=rs2.getString("content")%></td>
+                  <td><%=rs1.getString("content")%></td>
                </tr>
                
                 <tr>
                   <th>feeling:</th>
-                  <td><%=rs2.getString("feeling")%></td>
+                  <td><%=rs1.getString("feeling")%></td>
                </tr>
 
 
