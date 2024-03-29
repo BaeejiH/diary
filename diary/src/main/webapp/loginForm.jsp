@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+	//세션 값 설정하기
+	//session.setAttribute("설정한 아이디","세션에 넣을 값")
+	
+	//세션유지시간 설정
+	//session.setMaxlnactivelnterval(?*?)   ?에 시간을 입력, 몇분동안 세션을 유지할건지 선택
+	
+	//세션에 저장된 값 가져오기
+	//session.getAttribute("아이디")
+	
+	//세션 전체제거, 무효화
+	//session.invalidate()
+
   	//로그인(인증) 분기 session사용으로 변경()
  	//로그인 성공시 세션에 login Member라는 변수를 만들고값으로 로그인 아이디르 ㄹ저장
  	String loginMember =(String)(session.getAttribute("loginMember"));

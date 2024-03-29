@@ -44,7 +44,7 @@
      //3. 결과값에 따라 처리
      //성공했을때 boardOne으로 실패했을때 updateboardFrom으로
      if(row==1){
-        response.sendRedirect("/diary/diaryOne.jsp");
+        response.sendRedirect("/diary/diaryList.jsp");
         System.out.println("수정성공");
      }else{
         response.sendRedirect("/diary/updatediaryForm.jsp");

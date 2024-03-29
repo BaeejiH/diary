@@ -1,22 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.net.*"%>
-<%
-	String loginMember =(String)(session.getAttribute("loginMember"));
-	// session.getAttribute () 찾는 변수가 없으면 null값을 반환하다.
-	//null이면 로그아웃상테이고, null이 아니면 로그인 상태
-	System.out.println(loginMember + "");
-	
-	//logunForm 페이지는 로그아웃상태에서만 출력되는 페이지
-	 if(loginMember != null) {
-	  response.sendRedirect("/diary/diary.jsp"); 
-	  return;
-	 }
-	  
-	  
-	  
-	//loginMember 가 null이다. -> session 공간에 loginMember 변수를 생성  
-%>
+
   
 
  <%

@@ -10,10 +10,10 @@
    
    if(loginMember== null) {
       String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
-      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
+      response.sendRedirect("/diary/loginForm.jsp?errMsg="+errMsg);
       return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
    }
-%> 
+%>
 
 <% 
 //수정 삭제
@@ -111,12 +111,47 @@
    }
    %>
    
-   
-   
-   
-   
+   <!-- 댓글 추가 폼 -->
+
+	<div class="container cinzel">
+		<div class="row">
+		
+			<div class="col"></div>
+			
+			<div class="col-9 form-floating">
+				<form method="post" action="/diary/addcommentAction.jsp">
+					<input type="hidden" name="diaryDate" value="<%=diaryDate%>">
+					<textarea class="form-control" placeholder="comment here" name="memo" ></textarea>
+					<button type="submit">입력</button>
+				</form>
+				</div>
+				
+			<div class="col"></div>	
+		</div>
+	</div>
 
 
-   
+	<%
+	String sql2 = "select comment_no commentNo, memo,create_date createDate from comment where diary_date=?";
+	PreparedStatement stmt2 = null;
+	ResultSet rs2 = null;
+	
+	stmt2 = conn.prepareStatement(sql2);
+	stmt2.setString(1, diaryDate);
+	rs2 = stmt2.executeQuery();
+	%>
+   <table border="1">
+   	<%
+   		while(rs2.next()) {
+   	%>
+   				<tr>
+					<td><%=rs2.getString("memo")%></td>
+					<td><%=rs2.getString("createDate")%></td>
+					<td><a href='/diary/deleteComment.jsp?commentNo=<%=rs2.getInt("commentNo")%>'>삭제</a></td>
+				</tr>
+		<%		
+			}
+		%>
+	</table>  
 </body>
 </html>

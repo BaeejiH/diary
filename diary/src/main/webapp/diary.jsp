@@ -138,8 +138,8 @@
    
 </head>
 <body class="b">   
-   <a href="/diary/diary.jsp" class="btn btn-danger btn-lg">다이어리 모양으로 보기</a>
-   <a href="/diary/diaryList.jsp" class="btn btn-danger btn-lg">게시판 모양으로 보기</a>
+   <a href="/diary/diary.jsp" class="btn btn-danger btn-lg">diary</a>
+   <a href="/diary/diaryList.jsp" class="btn btn-danger btn-lg">diary List</a>
    
    
    

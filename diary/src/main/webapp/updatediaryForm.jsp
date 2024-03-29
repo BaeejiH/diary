@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.net.*"%>
 <%@ page import = "java.util.*" %>
+
 <%
    
    //로그인(인증)
@@ -9,11 +10,10 @@
    
    if(loginMember== null) {
       String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
-      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
+      response.sendRedirect("/diary/loginForm.jsp?errMsg="+errMsg);
       return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
    }
-%> 
-
+%>
 
 <%
 //수정 삭제
