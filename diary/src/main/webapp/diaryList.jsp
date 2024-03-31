@@ -111,12 +111,12 @@
                   <th>Title</th>
                   <th>Date</th> 
                </tr>
-               <%
+               <%//자바 열고
                while (rs2.next()) {
-               %>
+               %><!-- 자바 닫고 -->
                <tr>
                   
-                  <td><%=rs2.getString("title")%></td>
+                  <td><%=rs2.getString("title")%></td><!-- jsp페이지에서 보여지는 자바코드 -->
                   <td><a href="/diary/diaryOne.jsp?diaryDate=<%=rs2.getString("diaryDate")%>">
                   <%=rs2.getString("diaryDate")%></a></td>
                </tr>

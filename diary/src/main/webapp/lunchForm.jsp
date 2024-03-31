@@ -29,26 +29,70 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-	</head>
-<body>
+<style>
+      .cinzel {
+      font-family: "Cinzel", serif;
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-style: normal;
+   }
+       
+   .b {
+      background-image: url('/diary/img/sp.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+   }
 
-			<form method="post" action="/diary/lunchAction.jsp">
+</style>  
+		
+		
+		
+		
+	</head>
+<body class="b cinzel">
+
+
+
+
+
+		<form method="post" action="/diary/lunchAction.jsp">
+		<table style="margin-left: auto; margin-right: auto;">
+			
+			
+			<tr>
+				<td><label>menu</label></td>
+				<td>
+				<input type ="radio" name="menu" value="한식">한식	
+         		<input type ="radio" name="menu" value="일식">일식
+         		<input type ="radio" name="menu" value="중식">중식
+         		<input type ="radio" name="menu" value="양식">양식
+				
+				</td>
+			</tr>
+			<tr>
+				<td><button type="submit" class="btn btn-dark">투표</button></td>
+				
+			
+			</tr>         
+                     
+            </table>
             
-               <div>
-               <label for="lunchDate" class="form-label">lunchDate</label>
-               <input type="date" name="lunchDate" value="<%=lunchDate%>" id="lunchDate" class="form-label">
-              </div> 
-                                        
-                <label>menu</label>        	
-         		<intput type ="radio" name="menu" value="1">한식	
-         		<intput type ="radio" name="menu" value="2">일식
-         		<intput type ="radio" name="menu" value="3">중식
-         		<intput type ="radio" name="menu" value="4">양식
-                                 
-                  <button type="submit" class="btn btn-dark">투표</button>
-               </div>
+          
+              
+           
+                                   
+                  	
+         		
+           
                
             </form>
+            
+
+            
+            
+            
+            
+            
             
            
             

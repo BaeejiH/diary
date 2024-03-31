@@ -2,21 +2,19 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.net.*"%>
 <%@ page import = "java.util.*" %>
-<%
-   
-   //로그인(인증)
-   String loginMember = (String)(session.getAttribute("loginMember"));
-   
-   if(loginMember== null) {
-      String errMsg = URLEncoder.encode("!!!!잘못된 접근 입니다. 로그인 먼저 해주세요!!!", "utf-8");
-      response.sendRedirect("/diary/diary.jsp?errMsg="+errMsg);
-      return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
-   }
-%>
-
 
 
 <%
+	//diary.jsp? key=value&key=value, 모든 구조는 key와 value로 이루어져있음.
+	//get방식과 post방식을 통해서 페이지에서 보내주는 값을 request.getParameter로 값을 요청함.
+	//요청받은 값은 그 페이지 내에서만 쓸 수 있음.
+	// a,b,c 페이지가 있다고 가정할때 a에서 c페이지로 갈때 각페이지마다 값을 요청해줘야함.(a->b, b->c) 한번에 가는것은 아직 불가능
+	//return: 코드 진행을 끝내는 문법. 메서드 끝낼때 사용.
+	//get("key")= value
+	//set("key")= value
+
+
+
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
 	conn = DriverManager.getConnection(
@@ -208,7 +206,7 @@
             %>
                         <div>
                            <%=rs1.getString("feeling")%>
-                           <a href='/diary/diaryOne.jsp?diaryDate=<%=rs1.getString("diaryDate")%>'>
+                           <a href='/diary/diaryOne.jsp?diaryDate=<%=rs1.getString("diaryDate")%>'><!--rs1.getString은 쿼리에서 열의 값을 가져오는 것. 여기서는 diaryDate의 열값을 가져옴 -->
                               <%=rs1.getString("title")%>...
                            </a>
                         </div>
